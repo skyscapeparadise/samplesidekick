@@ -1,6 +1,5 @@
 
-
-
+<img width="1072" alt="Screenshot 2024-01-29 at 8 29 32 PM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/17ddec24-6fcc-4c51-b689-a29f1378f938">
 # samplesidekick
 A beautiful graphical sample-renaming tool for developing sample-based software projects.
 
