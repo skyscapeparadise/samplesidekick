@@ -5,7 +5,7 @@
 
 A beautiful graphical sample-renaming tool for developing sample-based software projects.
 
-This project serves as a proof-of-concept for creating development tools with graphical interfaces made of GPU-accelerated video elements.
+This project serves as a proof-of-concept for creating development tools with graphical interfaces made of GPU-accelerated video elements using the cross-platform Qt 6 API (among others).
 
 NOTE: AS OF JANUARY 29, 2024, THIS SOFTWARE IS STILL INCOMPLETE AND DOES NOT FUNCTION PROPERLY. PLEASE REFRAIN FROM USING IT TO RENAME YOUR SAMPLES UNTIL A RELEASE IS COMPLETE.
 
