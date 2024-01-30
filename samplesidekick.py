@@ -1,17 +1,33 @@
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+"""This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+samplesidekick
+by skyscapeparadise (kady and friends? come on guys help me out)
 
+special thanks to: finn foley for giving me a reason to get this thing
+finished already, moonriver for being so chill about me being super
+obsessed with stuff like this, guy white for encouraging me to get
+this onto github (and for maybe helping me solve the naming issue?
+come on guy, you're our only hope in these trying times), zena and
+drew for believing i was capable of doing stuff like this before i
+ever did stuff like this, and you dear reader for reading this.
+nobody ever reads this stuff.
+
+ty, kady <3
+
+"""
+
+# We import all the libraries we need to rename files, have a flashy video GUI, play a fake progress bar video, etc
 
 import os
 import sys
@@ -26,7 +42,37 @@ import subprocess
 import shutil
 from itertools import cycle, islice
 
+# Define all the little pieces of the final sample filenames
+
 chromaticscale = ["C0", "C#0", "D0", "D#0", "E0", "F0", "F#0", "G0", "G#0", "A0", "A#0", "B0", "C1", "C#1", "D1", "D#1", "E1", "F1", "F#1", "G1", "G#1", "A1", "A#1", "B1", "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5", "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6", "C7", "C#7", "D7", "D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7", "C8", "C#8", "D8", "D#8", "E8", "F8", "F#8", "G8", "G#8", "A8", "A#8", "B8", "C9", "C#9", "D9", "D#9", "E9", "F9", "F#9", "G9", "G#9", "A9", "A#9", "B9"]
+
+velocitydivisions = {
+10: [" 1 13 ", " 14 25 ", " 26 38 ", " 39 51 ", " 52 64 ", " 65 76 ", " 77 89 ", " 90 102 ", " 103 114 ", " 115 127 "],
+9: [" 1 14 ", " 15 28 ", " 29 42 ", " 43 56 ", " 57 71 ", " 72 85 ", " 86 99 ", " 100 113 ", " 114 127 "],
+8: [" 1 16 ", " 17 32 ", "33 48", "49 64", "65 79", "80 95", "96 111", "112 127"],
+7: [" 1 18 ", " 19 36 ", " 37 54 ", " 55 73 ", " 74 91 ", " 92 109 ", " 110 127 "],
+6: [" 1 21 ", " 22 42 ", " 43 64 ", " 65 85 ", " 86 106 ", " 107 127 "],
+5: [" 1 25 ", " 26 51 ", " 52 76 ", " 77 102 ", " 103 127 "],
+4: [" 1 32 ", " 33 64 ", " 65 95 ", " 96 127 "],
+3: [" 1 42 ", " 43 85 ", " 86 127 "],
+2: [" 1 64 ", " 65 127 "],
+1: [""]
+}
+
+roundrobindict = {
+10: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 ", " rr 10 "],
+9: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 "],
+8: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 "],
+7: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 "],
+6: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 "],
+5: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 "],
+4: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 "],
+3: [" rr 1 ", " rr 2 ", " rr 3 "],
+2: [" rr 1 ", " rr 2 "],
+1: [""]
+}
+
+# Declare the options variables
 
 startingnote = "C"
 startingnumber = 3
@@ -35,12 +81,16 @@ velocitylayers = 1
 roundrobins = 1
 startingnoteandnumber = startingnote + str(startingnumber)
 
+# Define the way to draw the directory location text
+
 class RightAlignedLabel(QLabel):
 	def paintEvent(self, event):
 		painter = QPainter(self)
 		rect = self.contentsRect()
 		elided_text = painter.fontMetrics().elidedText(self.text(), Qt.TextElideMode.ElideLeft, rect.width())
 		painter.drawText(rect, Qt.AlignmentFlag.AlignRight, elided_text)
+
+# Define the main window (This is where most of the application logic is including the renaming routine)
 
 class VideoWindow(QMainWindow):
 	def __init__(self, intro_video_path, day_video_path, night_video_path):
@@ -174,7 +224,7 @@ class VideoWindow(QMainWindow):
 		self.timer_dark_mode = QTimer()
 		self.timer_dark_mode.timeout.connect(self.check_dark_mode)
 		self.timer_dark_mode.start(1000)
-		
+				
 	def is_dark_mode(self):
 		if platform.system() == "Darwin":
 			return self.is_dark_mode_mac()
@@ -201,6 +251,8 @@ class VideoWindow(QMainWindow):
 		# Default fallback value if unable to determine dark mode status
 		return False
 	
+	# Dark mode will likely only be supported on macOS but feel free to implement dark mode for other operating systems it if you want
+	
 	def is_dark_mode_windows(self):
 		# Perform Windows-specific dark mode detection here
 		# You can use Windows registry or other Windows-specific APIs to determine the dark mode status
@@ -218,6 +270,9 @@ class VideoWindow(QMainWindow):
 		if current_dark_mode != self.last_dark_mode:
 			self.handle_dark_mode_change()
 			self.last_dark_mode = current_dark_mode
+	
+	# The "main video" is the GUI background. I might want to make the background animated in the future, for now, the video files depict still images.
+	# The backgrounds for both day and night mode are HEVC .mp4 files saved in the "media" folder
 	
 	def start_main_video(self):
 		current_mode = self.is_dark_mode()
@@ -310,32 +365,6 @@ class VideoWindow(QMainWindow):
 
 	# Run the rename function with the target and destination directories
 	def samplerename(self):
-		
-		velocitydivisions = {
-			10: [" 1 13 ", " 14 25 ", " 26 38 ", " 39 51 ", " 52 64 ", " 65 76 ", " 77 89 ", " 90 102 ", " 103 114 ", " 115 127 "],
-			9: [" 1 14 ", " 15 28 ", " 29 42 ", " 43 56 ", " 57 71 ", " 72 85 ", " 86 99 ", " 100 113 ", " 114 127 "],
-			8: [" 1 16 ", " 17 32 ", "33 48", "49 64", "65 79", "80 95", "96 111", "112 127"],
-			7: [" 1 18 ", " 19 36 ", " 37 54 ", " 55 73 ", " 74 91 ", " 92 109 ", " 110 127 "],
-			6: [" 1 21 ", " 22 42 ", " 43 64 ", " 65 85 ", " 86 106 ", " 107 127 "],
-			5: [" 1 25 ", " 26 51 ", " 52 76 ", " 77 102 ", " 103 127 "],
-			4: [" 1 32 ", " 33 64 ", " 65 95 ", " 96 127 "],
-			3: [" 1 42 ", " 43 85 ", " 86 127 "],
-			2: [" 1 64 ", " 65 127 "],
-			1: [""]
-		}
-		
-		roundrobindict = {
-			10: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 ", " rr 10 "],
-			9: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 "],
-			8: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 "],
-			7: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 "],
-			6: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 "],
-			5: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 "],
-			4: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 "],
-			3: [" rr 1 ", " rr 2 ", " rr 3 "],
-			2: [" rr 1 ", " rr 2 "],
-			1: [""]
-		}
 			
 		global startingnote
 		global startingnumber
@@ -394,6 +423,9 @@ class VideoWindow(QMainWindow):
 		
 					# Copy the file to the new directory with the new name
 					shutil.copy2(old_path, new_path)
+
+
+# Define the sprite based buttons
 		
 class SpriteButton(QPushButton):
 	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
@@ -837,6 +869,8 @@ class MainWindow(QMainWindow):
 	def context_menu_requested(self):
 		self.menu.exec(self.video_window.startingnote_button.mapToGlobal(self.video_window.startingnote_button.pos()))
 		
+
+# Spawn the actual instance of the app and its window
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
