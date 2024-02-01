@@ -3,7 +3,7 @@
 
 # samplesidekick
 
-A beautiful graphical sample-renaming tool for developing sample-based software projects.
+A beautiful graphical sample-renaming tool for developing sample-based virtual instruments for use in digital audio workstations.
 
 This project serves as a proof-of-concept for creating development tools with graphical interfaces made of GPU-accelerated video elements using the cross-platform Qt 6 API (among others).
 
