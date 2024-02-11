@@ -42,38 +42,52 @@ import subprocess
 import shutil
 from itertools import cycle, islice
 
-# Define all the little pieces of the final sample filenames
+# Define all the elements of the final sample filenames
 
 chromaticscale = ["C0", "C#0", "D0", "D#0", "E0", "F0", "F#0", "G0", "G#0", "A0", "A#0", "B0", "C1", "C#1", "D1", "D#1", "E1", "F1", "F#1", "G1", "G#1", "A1", "A#1", "B1", "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5", "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6", "C7", "C#7", "D7", "D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7", "C8", "C#8", "D8", "D#8", "E8", "F8", "F#8", "G8", "G#8", "A8", "A#8", "B8", "C9", "C#9", "D9", "D#9", "E9", "F9", "F#9", "G9", "G#9", "A9", "A#9", "B9"]
 
 velocitydivisions = {
-10: [" 1 13 ", " 14 25 ", " 26 38 ", " 39 51 ", " 52 64 ", " 65 76 ", " 77 89 ", " 90 102 ", " 103 114 ", " 115 127 "],
-9: [" 1 14 ", " 15 28 ", " 29 42 ", " 43 56 ", " 57 71 ", " 72 85 ", " 86 99 ", " 100 113 ", " 114 127 "],
-8: [" 1 16 ", " 17 32 ", "33 48", "49 64", "65 79", "80 95", "96 111", "112 127"],
-7: [" 1 18 ", " 19 36 ", " 37 54 ", " 55 73 ", " 74 91 ", " 92 109 ", " 110 127 "],
-6: [" 1 21 ", " 22 42 ", " 43 64 ", " 65 85 ", " 86 106 ", " 107 127 "],
-5: [" 1 25 ", " 26 51 ", " 52 76 ", " 77 102 ", " 103 127 "],
-4: [" 1 32 ", " 33 64 ", " 65 95 ", " 96 127 "],
-3: [" 1 42 ", " 43 85 ", " 86 127 "],
-2: [" 1 64 ", " 65 127 "],
-1: [""]
-}
+	10: [" 1 13 ", " 14 25 ", " 26 38 ", " 39 51 ", " 52 64 ", " 65 76 ", " 77 89 ", " 90 102 ", " 103 114 ", " 115 127 "],
+	9: [" 1 14 ", " 15 28 ", " 29 42 ", " 43 56 ", " 57 71 ", " 72 85 ", " 86 99 ", " 100 113 ", " 114 127 "],
+	8: [" 1 16 ", " 17 32 ", "33 48", "49 64", "65 79", "80 95", "96 111", "112 127"],
+	7: [" 1 18 ", " 19 36 ", " 37 54 ", " 55 73 ", " 74 91 ", " 92 109 ", " 110 127 "],
+	6: [" 1 21 ", " 22 42 ", " 43 64 ", " 65 85 ", " 86 106 ", " 107 127 "],
+	5: [" 1 25 ", " 26 51 ", " 52 76 ", " 77 102 ", " 103 127 "],
+	4: [" 1 32 ", " 33 64 ", " 65 95 ", " 96 127 "],
+	3: [" 1 42 ", " 43 85 ", " 86 127 "],
+	2: [" 1 64 ", " 65 127 "],
+	1: [""]
+	}
 
 roundrobindict = {
-10: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 ", " rr 10 "],
-9: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 "],
-8: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 "],
-7: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 "],
-6: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 "],
-5: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 "],
-4: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 "],
-3: [" rr 1 ", " rr 2 ", " rr 3 "],
-2: [" rr 1 ", " rr 2 "],
-1: [""]
-}
+	10: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 ", " rr 10 "],
+	9: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 "],
+	8: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 "],
+	7: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 "],
+	6: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 "],
+	5: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 "],
+	4: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 "],
+	3: [" rr 1 ", " rr 2 ", " rr 3 "],
+	2: [" rr 1 ", " rr 2 "],
+	1: [""]
+	}
+
+signaltracksdict = {
+	10: ["track1", "track2", "track3", "track4", "track5", "track6", "track7", "track8", "track9", "track10"],
+	9: ["track1", "track2", "track3", "track4", "track5", "track6", "track7", "track8", "track9"],
+	8: ["track1", "track2", "track3", "track4", "track5", "track6", "track7", "track8"],
+	7: ["track1", "track2", "track3", "track4", "track5", "track6", "track7"],
+	6: ["track1", "track2", "track3", "track4", "track5", "track6"],
+	5: ["track1", "track2", "track3", "track4", "track5"],
+	4: ["track1", "track2", "track3", "track4"],
+	3: ["track1", "track2", "track3"],
+	2: ["track1", "track2"],
+	1: [""]
+	}
 
 # Declare the options variables
 
+signaltracks = 1
 startingnote = "C"
 startingnumber = 3
 skippednotes = 0
@@ -130,7 +144,7 @@ class VideoWindow(QMainWindow):
 
 		# Create buttons for selecting directories
 		self.target_directory_button = SpriteButton(self)
-		self.target_directory_button.setGeometry(90, 464, 84, 20)
+		self.target_directory_button.setGeometry(92, 464, 84, 20)
 		self.target_directory_button.setFixedSize(84, 20)
 		self.target_directory_button.setText("Select Target Directory")
 		self.target_directory_button.setSpriteImage("media/selectsprite.png")
@@ -138,21 +152,30 @@ class VideoWindow(QMainWindow):
 		self.target_directory_button.hide()
 
 		self.destination_directory_button = SpriteButton(self)
-		self.destination_directory_button.setGeometry(373, 464, 84, 20)
+		self.destination_directory_button.setGeometry(375, 464, 84, 20)
 		self.destination_directory_button.setFixedSize(84, 20)
 		self.destination_directory_button.setSpriteImage("media/selectsprite.png")
 		self.destination_directory_button.setText("Select Destination Directory")
 		self.destination_directory_button.clickedToOff.connect(self.select_destination_directory)
 		self.destination_directory_button.hide()
 
-		# Create the rename button
+		# Create the start button that executes the renaming operation
 		self.rename_button = SpriteButton(self)
-		self.rename_button.setGeometry(845, 185, 84, 20)
+		self.rename_button.setGeometry(843, 168, 84, 20)
 		self.rename_button.setFixedSize(84, 20)
 		self.rename_button.setSpriteImage("media/startsprite.png")
-		self.rename_button.setText("Rename")
+		self.rename_button.setText("Start")
 		self.rename_button.clickedToOff.connect(self.samplerename)
 		self.rename_button.hide()
+		
+		# Create the signal tracks button
+		self.signaltracks_button = SignalTracksButton(self)
+		self.signaltracks_button.setGeometry(845, 255, 40, 20)
+		self.signaltracks_button.setFixedSize(40,20)
+		self.signaltracks_button.setSpriteImage("media/ddbutton.png")
+		self.signaltracks_button.setText("Signal Tracks")
+		self.signaltracks_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
+		self.signaltracks_button.hide()
 		
 		# Create the starting note button
 		self.startingnote_button = NoteButton(self)
@@ -312,6 +335,7 @@ class VideoWindow(QMainWindow):
 			self.target_directory_button.show()
 			self.destination_directory_button.show()
 			self.rename_button.show()
+			self.signaltracks_button.show()
 			self.startingnote_button.show()
 			self.startingnumber_button.show()
 			self.skippednotes_button.show()
@@ -324,12 +348,12 @@ class VideoWindow(QMainWindow):
 			self.target_directory_button.hide()
 			self.destination_directory_button.hide()
 			self.rename_button.hide()
+			self.signaltracks_button.hide()
 			self.startingnote_button.hide()
 			self.startingnumber_button.hide()
 			self.skippednotes_button.hide()
 			self.velocitylayers_button.hide()
 			self.roundrobins_button.hide()
-	
 	
 	def handle_dark_mode_change(self):
 		if self.transition_to_main:
@@ -353,7 +377,7 @@ class VideoWindow(QMainWindow):
 		
 		# Set the size and position of the video label
 		width = 765
-		height = 35
+		height = 36
 		self.video_label2.resize(width, height)
 		self.video_label2.move(162, 142)  # Adjust the desired position
 		
@@ -366,6 +390,7 @@ class VideoWindow(QMainWindow):
 	# Run the rename function with the target and destination directories
 	def samplerename(self):
 			
+		global signaltracks
 		global startingnote
 		global startingnumber
 		notenumber = startingnumber
@@ -388,42 +413,32 @@ class VideoWindow(QMainWindow):
 		
 		if not os.path.exists(new_directory):
 			os.makedirs(new_directory)
+			
+		if not os.path.exists(original_directory):
 		
 		files = os.listdir(original_directory)
 		files.sort()
 		
 		starting_index = chromaticscale.index(startingnoteandnumber)
 		
-		# Handle first file
-		first_file = files.pop(0)
-		first_file_name, first_file_extension = os.path.splitext(first_file)
 		for v in range(velocitylayers):
 			for r in range(roundrobins):
-				round_robin_name = roundrobindict[roundrobins][r]
-				velocity_name = velocitydivisions[velocitylayers][v]
-				final_name = startingnoteandnumber + velocity_name + round_robin_name + first_file_extension
-				old_path = os.path.join(original_directory, first_file)
-				new_path = os.path.join(new_directory, final_name)
-				shutil.copy2(old_path, new_path)
-		
-		# Handle remaining files
-		for v in range(velocitylayers):
-			for r in range(roundrobins):
-				round_robin_name = roundrobindict[roundrobins][r]
-				velocity_name = velocitydivisions[velocitylayers][v]
-				for file, note in zip(files, chromaticscale[starting_index::skippednotes+1]):
-					filename, file_extension = os.path.splitext(file)
-		
-					# Build the new name with the appropriate note, velocity layer, and round robin
-					final_name = note + velocity_name + round_robin_name + file_extension
-		
-					# Build the full paths for the old and new names
-					old_path = os.path.join(original_directory, file)
-					new_path = os.path.join(new_directory, final_name)
-		
-					# Copy the file to the new directory with the new name
-					shutil.copy2(old_path, new_path)
-
+				for s in range(signaltracks):
+					track_name = signaltracksdict[signaltracks][s]
+					round_robin_name = roundrobindict[roundrobins][r]
+					velocity_name = velocitydivisions[velocitylayers][v]
+					for file, note in zip(files, chromaticscale[starting_index::skippednotes+1]):
+						filename, file_extension = os.path.splitext(file)
+			
+						# Build the new name with the appropriate note, velocity layer, and round robin
+						final_name = track_name + note + velocity_name + round_robin_name + file_extension
+			
+						# Build the full paths for the old and new names
+						old_path = os.path.join(original_directory, file)
+						new_path = os.path.join(new_directory, final_name)
+			
+						# Copy the file to the new directory with the new name
+						shutil.copy2(old_path, new_path)
 
 # Define the sprite based buttons
 		
@@ -812,6 +827,74 @@ class RoundRobinsButton(QPushButton):
 		else:
 			super().mouseReleaseEvent(event)
 
+class SignalTracksButton(QPushButton):
+	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	
+	def __init__(self, parent=None):
+		super().__init__(parent)
+		self.off_state = True
+		self.hovered = False
+		self.sprite_sheet = QPixmap()
+	
+	def setSpriteImage(self, sprite_path):
+		self.sprite_sheet = QPixmap(sprite_path)
+		self.update()
+	
+	def paintEvent(self, event: QPaintEvent):
+		painter = QPainter(self)
+		painter.drawPixmap(self.rect(), self.getSpriteForState())
+	
+	def getSpriteForState(self) -> QPixmap:
+		sprite_height = 20
+		sprite_index = 0
+		if self.isDown():
+			sprite_index += 2
+		elif self.off_state and self.hovered:
+			sprite_index += 4
+		return self.sprite_sheet.copy(0, sprite_index * sprite_height, self.width(), sprite_height)
+	
+	def enterEvent(self, event):
+		if self.isEnabled() and not self.isDown():
+			self.hovered = True
+			self.update()
+	
+	def leaveEvent(self, event):
+		if self.isEnabled() and not self.isDown():
+			self.hovered = False
+			self.update()
+	
+	def mousePressEvent(self, event):
+		if event.button() == Qt.MouseButton.LeftButton and self.isEnabled():
+			self.show_menu()
+		else:
+			super().mousePressEvent(event)
+	
+	def show_menu(self):
+		# Create and show the menu at the button's position
+		menu = SpriteMenu(self)
+		menu.addActionWithSprite("media/1.png",  lambda: setsignaltracks(1))
+		menu.addActionWithSprite("media/2.png",  lambda: setsignaltracks(2))
+		menu.addActionWithSprite("media/3.png",  lambda: setsignaltracks(3))
+		menu.addActionWithSprite("media/4.png",  lambda: setsignaltracks(4))
+		menu.addActionWithSprite("media/5.png",  lambda: setsignaltracks(5))
+		menu.addActionWithSprite("media/6.png",  lambda: setsignaltracks(6))
+		menu.addActionWithSprite("media/7.png",  lambda: setsignaltracks(7))
+		menu.addActionWithSprite("media/8.png",  lambda: setsignaltracks(8))
+		menu.addActionWithSprite("media/9.png",  lambda: setsignaltracks(9))
+		menu.addActionWithSprite("media/10.png", lambda: setsignaltracks(10))
+		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
+	
+	def mouseReleaseEvent(self, event):
+		if event.button() == Qt.MouseButton.LeftButton and self.isEnabled() and self.isDown():
+			self.clickedToOff.emit()
+			self.setDown(False)  # Reset the button state
+			self.off_state = True
+			self.hovered = False  # Set hovered to False to return to the initial state
+			self.update()
+		else:
+			super().mouseReleaseEvent(event)
+
+
 class SpriteMenu(QMenu):
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -901,5 +984,10 @@ if __name__ == "__main__":
 		global roundrobins
 		roundrobins = n
 		window.video_window.roundrobins_button.setSpriteImage("media/"+str(roundrobins)+".png")
+		
+	def setsignaltracks(n):
+		global signaltracks
+		signaltracks = n
+		window.video_window.signaltracks_button.setSpriteImage("media/"+str(signaltracks)+".png")
 
 	sys.exit(app.exec())
