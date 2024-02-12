@@ -27,7 +27,6 @@ ty, kady <3
 
 """
 
-
 # We import all the libraries we need to rename files, have a flashy video GUI, play a fake progress bar video, etc
 
 import os
