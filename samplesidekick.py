@@ -31,7 +31,7 @@ ty, kady <3
 
 import os
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QMenu
+from PyQt6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QMenu
 from PyQt6.QtCore import QTimer, Qt, pyqtSignal, QUrl
 from PyQt6.QtGui import QPixmap, QImage, QAction, QPainter, QPaintEvent, QIcon, QColor, QBrush
 from PyQt6.QtMultimedia import QMediaPlayer
@@ -103,6 +103,26 @@ class RightAlignedLabel(QLabel):
 		rect = self.contentsRect()
 		elided_text = painter.fontMetrics().elidedText(self.text(), Qt.TextElideMode.ElideLeft, rect.width())
 		painter.drawText(rect, Qt.AlignmentFlag.AlignRight, elided_text)
+		
+class ImageDialog(QDialog):
+		def __init__(self, image_path):
+			super().__init__()
+		
+			self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)  # Optional: Keep the dialog on top
+		
+			# Load the image
+			pixmap = QPixmap(image_path)
+		
+			# Create a QLabel to display the image
+			label = QLabel(self)
+			label.setPixmap(pixmap)
+		
+			# Set up the layout
+			layout = QVBoxLayout(self)
+			layout.addWidget(label)
+		
+			# Connect the click event to close the dialog
+			label.mousePressEvent = self.close
 
 # Define the main window (This is where most of the application logic is including the renaming routine)
 
@@ -165,7 +185,7 @@ class VideoWindow(QMainWindow):
 		self.rename_button.setFixedSize(84, 20)
 		self.rename_button.setSpriteImage("media/startsprite.png")
 		self.rename_button.setText("Start")
-		self.rename_button.clickedToOff.connect(self.samplerename)
+		self.rename_button.clickedToOff.connect(lambda: samplerename())
 		self.rename_button.hide()
 		
 		# Create the signal tracks button
@@ -361,12 +381,14 @@ class VideoWindow(QMainWindow):
 			self.start_main_video()
 	
 	def select_target_directory(self):
-		directory = QFileDialog.getExistingDirectory(self, "Select Target Directory")
-		self.target_directory.setText(directory)
+		global original_directory
+		original_directory = QFileDialog.getExistingDirectory(self, "Select Target Directory")
+		self.target_directory.setText(original_directory)
 	
 	def select_destination_directory(self):
-		directory = QFileDialog.getExistingDirectory(self, "Select Destination Directory")
-		self.destination_directory.setText(directory)
+		global new_directory
+		new_directory = QFileDialog.getExistingDirectory(self, "Select Destination Directory")
+		self.destination_directory.setText(new_directory)
 	
 	def hide_buttons(self):
 		self.target_directory_button.hide()
@@ -386,59 +408,6 @@ class VideoWindow(QMainWindow):
 		
 		# Start the video playback
 		self.media_player.play()
-
-	# Run the rename function with the target and destination directories
-	def samplerename(self):
-			
-		global signaltracks
-		global startingnote
-		global startingnumber
-		notenumber = startingnumber
-		global skippednotes
-		global velocitylayers
-		global roundrobins
-		
-		if self.is_dark_mode():
-			video_path = "media/progressnight.mp4"
-		else:
-			video_path = "media/progresslight.mp4"
-			
-		self.play_video(video_path)
-		
-		# Path to the directory containing the files
-		original_directory = self.target_directory.text()
-		
-		# Path to the directory where renamed files will be saved
-		new_directory = self.destination_directory.text()
-		
-		if not os.path.exists(new_directory):
-			os.makedirs(new_directory)
-			
-		if not os.path.exists(original_directory):
-		
-		files = os.listdir(original_directory)
-		files.sort()
-		
-		starting_index = chromaticscale.index(startingnoteandnumber)
-		
-		for v in range(velocitylayers):
-			for r in range(roundrobins):
-				for s in range(signaltracks):
-					track_name = signaltracksdict[signaltracks][s]
-					round_robin_name = roundrobindict[roundrobins][r]
-					velocity_name = velocitydivisions[velocitylayers][v]
-					for file, note in zip(files, chromaticscale[starting_index::skippednotes+1]):
-						filename, file_extension = os.path.splitext(file)
-			
-						# Build the new name with the appropriate note, velocity layer, and round robin
-						final_name = track_name + note + velocity_name + round_robin_name + file_extension
-			
-						# Build the full paths for the old and new names
-						old_path = os.path.join(original_directory, file)
-						new_path = os.path.join(new_directory, final_name)
-			
-						# Copy the file to the new directory with the new name
-						shutil.copy2(old_path, new_path)
 
 # Define the sprite based buttons
 		
@@ -989,5 +958,57 @@ if __name__ == "__main__":
 		global signaltracks
 		signaltracks = n
 		window.video_window.signaltracks_button.setSpriteImage("media/"+str(signaltracks)+".png")
+	
+	# Run the rename function with the target and destination directories
+	def samplerename():
+		
+		global signaltracks
+		global startingnote
+		global startingnumber
+		global skippednotes
+		global velocitylayers
+		global roundrobins
+		global original_directory
+		global new_directory
+		
+		notenumber = startingnumber
+		
+		if window.video_window.is_dark_mode():
+			video_path = "media/progressnight.mp4"
+		else:
+			video_path = "media/progresslight.mp4"
+			
+		window.video_window.play_video(video_path)
+		
+		if not os.path.exists(new_directory):
+			os.makedirs(new_directory)
+			
+		if not os.path.exists(original_directory):
+			print("something goes here")
+		
+		files = os.listdir(original_directory)
+		files.sort()
+		
+		starting_index = chromaticscale.index(startingnoteandnumber)
+		
+		for v in range(velocitylayers):
+			for r in range(roundrobins):
+				for s in range(signaltracks):
+					track_name = signaltracksdict[signaltracks][s]
+					round_robin_name = roundrobindict[roundrobins][r]
+					velocity_name = velocitydivisions[velocitylayers][v]
+					for file, note in zip(files, chromaticscale[starting_index::skippednotes+1]):
+						filename, file_extension = os.path.splitext(file)
+			
+						# Build the new name with the appropriate note, velocity layer, and round robin
+						final_name = track_name + note + velocity_name + round_robin_name + file_extension
+			
+						# Build the full paths for the old and new names
+						old_path = os.path.join(original_directory, file)
+						new_path = os.path.join(new_directory, final_name)
+			
+						# Copy the file to the new directory with the new name
+						shutil.copy2(old_path, new_path)
+
 
 	sys.exit(app.exec())
