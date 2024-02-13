@@ -32,7 +32,7 @@ ty, kady <3
 import os
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QMenu
-from PyQt6.QtCore import QTimer, Qt, pyqtSignal, QUrl
+from PyQt6.QtCore import QTimer, Qt, pyqtSignal, QUrl, QSize
 from PyQt6.QtGui import QPixmap, QImage, QAction, QPainter, QPaintEvent, QIcon, QColor, QBrush
 from PyQt6.QtMultimedia import QMediaPlayer
 from PyQt6.QtMultimediaWidgets import QVideoWidget
@@ -94,6 +94,8 @@ skippednotes = 0
 velocitylayers = 1
 roundrobins = 1
 startingnoteandnumber = startingnote + str(startingnumber)
+original_directory = ""
+destination_directory = ""
 
 # Define the way to draw the directory location text
 
@@ -105,25 +107,38 @@ class RightAlignedLabel(QLabel):
 		painter.drawText(rect, Qt.AlignmentFlag.AlignRight, elided_text)
 		
 class ImageDialog(QDialog):
-		def __init__(self, image_path):
-			super().__init__()
+	def __init__(self, image_path):
+		super().__init__()
 		
-			self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)  # Optional: Keep the dialog on top
+		# Make the dialog box borderless and on the top of the window stack
+		self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
 		
-			# Load the image
-			pixmap = QPixmap(image_path)
+		# Load the image, get its dimensions, and scale it down to 50%
+		original_pixmap = QPixmap(image_path)
+		width = int(original_pixmap.width() * 0.5)
+		height = int(original_pixmap.height() * 0.5)
+		pixmap = original_pixmap.scaled(QSize(width, height))
 		
-			# Create a QLabel to display the image
-			label = QLabel(self)
-			label.setPixmap(pixmap)
+		# Create a QLabel to display the image
+		label = QLabel(self)
+		label.setPixmap(pixmap)
 		
-			# Set up the layout
-			layout = QVBoxLayout(self)
-			layout.addWidget(label)
+		# Set up the layout
+		layout = QVBoxLayout(self)
+		layout.addWidget(label)
 		
-			# Connect the click event to close the dialog
-			label.mousePressEvent = self.close
-
+		# Set layout margin to zero
+		layout.setContentsMargins(0, 0, 0, 0)
+		
+		# Set dialog stylesheet to remove border
+		self.setStyleSheet("QDialog {border: 0px;}")
+		
+		self.closedialog_button = SpriteButton(self)
+		self.closedialog_button.setGeometry(177, 129, 84, 20)
+		self.closedialog_button.setFixedSize(84, 20)
+		self.closedialog_button.setSpriteImage("media/closesprite.png")
+		self.closedialog_button.clickedToOff.connect(self.close)
+		
 # Define the main window (This is where most of the application logic is including the renaming routine)
 
 class VideoWindow(QMainWindow):
@@ -971,44 +986,48 @@ if __name__ == "__main__":
 		global original_directory
 		global new_directory
 		
-		notenumber = startingnumber
-		
-		if window.video_window.is_dark_mode():
-			video_path = "media/progressnight.mp4"
+		if original_directory == "":
+			original_error_dialog = ImageDialog("media/errorsampledirectory.png")
+			original_error_dialog.exec()
 		else:
-			video_path = "media/progresslight.mp4"
-			
-		window.video_window.play_video(video_path)
-		
-		if not os.path.exists(new_directory):
-			os.makedirs(new_directory)
-			
-		if not os.path.exists(original_directory):
-			print("something goes here")
-		
-		files = os.listdir(original_directory)
-		files.sort()
-		
-		starting_index = chromaticscale.index(startingnoteandnumber)
-		
-		for v in range(velocitylayers):
-			for r in range(roundrobins):
-				for s in range(signaltracks):
-					track_name = signaltracksdict[signaltracks][s]
-					round_robin_name = roundrobindict[roundrobins][r]
-					velocity_name = velocitydivisions[velocitylayers][v]
-					for file, note in zip(files, chromaticscale[starting_index::skippednotes+1]):
-						filename, file_extension = os.path.splitext(file)
-			
-						# Build the new name with the appropriate note, velocity layer, and round robin
-						final_name = track_name + note + velocity_name + round_robin_name + file_extension
-			
-						# Build the full paths for the old and new names
-						old_path = os.path.join(original_directory, file)
-						new_path = os.path.join(new_directory, final_name)
-			
-						# Copy the file to the new directory with the new name
-						shutil.copy2(old_path, new_path)
+				
+			if destination_directory == "":
+				destination_error_dialog = ImageDialog("media/erroroutputdirectory.png")
+				destination_error_dialog.exec()
+			else:
+				
+				notenumber = startingnumber
+				
+				if window.video_window.is_dark_mode():
+					video_path = "media/progressnight.mp4"
+				else:
+					video_path = "media/progresslight.mp4"
+					
+				window.video_window.play_video(video_path)
+				
+				files = os.listdir(original_directory)
+				files.sort()
+				
+				starting_index = chromaticscale.index(startingnoteandnumber)
+				
+				for v in range(velocitylayers):
+					for r in range(roundrobins):
+						for s in range(signaltracks):
+							track_name = signaltracksdict[signaltracks][s]
+							round_robin_name = roundrobindict[roundrobins][r]
+							velocity_name = velocitydivisions[velocitylayers][v]
+							for file, note in zip(files, chromaticscale[starting_index::skippednotes+1]):
+								filename, file_extension = os.path.splitext(file)
+					
+								# Build the new name with the appropriate note, velocity layer, and round robin
+								final_name = track_name + note + velocity_name + round_robin_name + file_extension
+					
+								# Build the full paths for the old and new names
+								old_path = os.path.join(original_directory, file)
+								new_path = os.path.join(new_directory, final_name)
+					
+								# Copy the file to the new directory with the new name
+								shutil.copy2(old_path, new_path)
 
 
 	sys.exit(app.exec())
