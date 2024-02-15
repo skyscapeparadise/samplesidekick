@@ -31,11 +31,11 @@ ty, kady <3
 
 import os
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QMenu
-from PyQt6.QtCore import QTimer, Qt, pyqtSignal, QUrl, QSize
-from PyQt6.QtGui import QPixmap, QImage, QAction, QPainter, QPaintEvent, QIcon, QColor, QBrush
-from PyQt6.QtMultimedia import QMediaPlayer
-from PyQt6.QtMultimediaWidgets import QVideoWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QMenu
+from PySide6.QtCore import QTimer, Qt, Signal, QUrl, QSize
+from PySide6.QtGui import QPixmap, QImage, QAction, QPainter, QPaintEvent, QIcon, QColor, QBrush
+from PySide6.QtMultimedia import QMediaPlayer
+from PySide6.QtMultimediaWidgets import QVideoWidget
 import cv2
 import platform
 import subprocess
@@ -427,7 +427,7 @@ class VideoWindow(QMainWindow):
 # Define the sprite based buttons
 		
 class SpriteButton(QPushButton):
-	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 		
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -473,7 +473,7 @@ class SpriteButton(QPushButton):
 			super().mouseReleaseEvent(event)
 
 class NoteButton(QPushButton):
-	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 	
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -542,7 +542,7 @@ class NoteButton(QPushButton):
 			super().mouseReleaseEvent(event)
 
 class NumberButton(QPushButton):
-	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 	
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -610,7 +610,7 @@ class NumberButton(QPushButton):
 			super().mouseReleaseEvent(event)
 
 class SkippedButton(QPushButton):
-	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 	
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -678,7 +678,7 @@ class SkippedButton(QPushButton):
 			super().mouseReleaseEvent(event)
 
 class VelocityButton(QPushButton):
-	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 	
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -745,7 +745,7 @@ class VelocityButton(QPushButton):
 			super().mouseReleaseEvent(event)
 
 class RoundRobinsButton(QPushButton):
-	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 	
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -812,7 +812,7 @@ class RoundRobinsButton(QPushButton):
 			super().mouseReleaseEvent(event)
 
 class SignalTracksButton(QPushButton):
-	clickedToOff = pyqtSignal()  # Signal emitted when the button is clicked and should return to the off state
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 	
 	def __init__(self, parent=None):
 		super().__init__(parent)
