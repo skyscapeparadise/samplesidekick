@@ -1,4 +1,5 @@
-"""This program is free software: you can redistribute it and/or modify
+"""
+This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -17,14 +18,8 @@ by skyscapeparadise (kady and friends? come on guys help me out)
 special thanks to: finn foley for giving me a reason to get this thing
 finished already, moonriver for being so chill about me being super
 obsessed with stuff like this, guy white for encouraging me to get
-this onto github (and for maybe helping me solve the naming issue?
-come on guy, you're our only hope in these trying times), zena and
-drew for believing i was capable of doing stuff like this before i
-ever did stuff like this, and you dear reader for reading this.
-nobody ever reads this stuff.
-
-ty, kady <3
-
+this onto github, zena and drew for believing i was capable of doing
+stuff like this before i ever did stuff like this
 """
 
 # We import all the libraries we need to rename files, have a flashy video GUI, play a fake progress bar video, etc
@@ -142,7 +137,7 @@ class ImageDialog(QDialog):
 # Define the main window (This is where most of the application logic is including the renaming routine)
 
 class VideoWindow(QMainWindow):
-	def __init__(self, intro_video_path, day_video_path, night_video_path):
+	def __init__(self, intro_video_path, day_video_path, night_video_path, day_progress_video_path, night_progress_video_path):
 		super().__init__()
 
 		# Create a label to display the video frames
@@ -150,13 +145,14 @@ class VideoWindow(QMainWindow):
 		self.video_label.setGeometry(0, 0, 960, 540)
 		self.setCentralWidget(self.video_label)
 		
-		# Create a QLabel widget for the fake progress bar video display
-		self.video_label2 = QLabel(self)
-		self.video_label2.setGeometry(162, 142, 765, 35)  # Adjust the position and size
+		# Create the fake progress bar video player
+		self.progressplayer = QMediaPlayer()
+		#self.progressplayer.setGeometry(162, 142, 765, 35)
+		self.progressplayervideo_widget = QVideoWidget()
+		self.progressplayervideo_widget.hide()
 		
-		# Create a QMediaPlayer instance
-		self.media_player = QMediaPlayer()
-		self.media_player.setVideoOutput(self.video_label2)
+		# Connect stateChanged signal to slot used for hiding the progress bar video after it concludes
+		self.progressplayer.playbackStateChanged.connect(self.handle_player_state_change)
 
 		# Disable window resizing
 		flags = self.windowFlags()
@@ -409,20 +405,9 @@ class VideoWindow(QMainWindow):
 		self.target_directory_button.hide()
 		self.destination_directory_button.hide()
 		
-	def play_video(self, video_path):
-		self.media_player.setSource(QUrl.fromLocalFile(video_path))
-		
-		# Set the size and position of the video label
-		width = 765
-		height = 36
-		self.video_label2.resize(width, height)
-		self.video_label2.move(162, 142)  # Adjust the desired position
-		
-		# Adjust the stacking order of the video label
-		self.video_label2.raise_()
-		
-		# Start the video playback
-		self.media_player.play()
+	def handle_player_state_change(self, state):
+		if state == QMediaPlayer.StoppedState:
+			self.progressplayervideo_widget.hide()
 
 # Define the sprite based buttons
 		
@@ -909,8 +894,10 @@ class MainWindow(QMainWindow):
 		self.intro_video_path = "media/intro.mp4"
 		self.day_video_path = "media/day.mp4"
 		self.night_video_path = "media/night.mp4"
+		self.day_progress_video_path = "media/progresslight.mp4"
+		self.night_progress_video_path = "media/progressnight.mp4"
 	
-		self.video_window = VideoWindow(self.intro_video_path, self.day_video_path, self.night_video_path)
+		self.video_window = VideoWindow(self.intro_video_path, self.day_video_path, self.night_video_path, self.day_progress_video_path, self.night_progress_video_path)
 		self.setCentralWidget(self.video_window)
 	
 		# Set the window flags to disable resizing
