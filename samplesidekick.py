@@ -137,22 +137,13 @@ class ImageDialog(QDialog):
 # Define the main window (This is where most of the application logic is including the renaming routine)
 
 class VideoWindow(QMainWindow):
-	def __init__(self, intro_video_path, day_video_path, night_video_path, day_progress_video_path, night_progress_video_path):
+	def __init__(self, intro_video_path, day_video_path, night_video_path):
 		super().__init__()
 
 		# Create a label to display the video frames
 		self.video_label = QLabel(self)
 		self.video_label.setGeometry(0, 0, 960, 540)
 		self.setCentralWidget(self.video_label)
-		
-		# Create the fake progress bar video player
-		self.progressplayer = QMediaPlayer()
-		#self.progressplayer.setGeometry(162, 142, 765, 35)
-		self.progressplayervideo_widget = QVideoWidget()
-		self.progressplayervideo_widget.hide()
-		
-		# Connect stateChanged signal to slot used for hiding the progress bar video after it concludes
-		self.progressplayer.playbackStateChanged.connect(self.handle_player_state_change)
 
 		# Disable window resizing
 		flags = self.windowFlags()
@@ -404,10 +395,6 @@ class VideoWindow(QMainWindow):
 	def hide_buttons(self):
 		self.target_directory_button.hide()
 		self.destination_directory_button.hide()
-		
-	def handle_player_state_change(self, state):
-		if state == QMediaPlayer.StoppedState:
-			self.progressplayervideo_widget.hide()
 
 # Define the sprite based buttons
 		
@@ -894,10 +881,8 @@ class MainWindow(QMainWindow):
 		self.intro_video_path = "media/intro.mp4"
 		self.day_video_path = "media/day.mp4"
 		self.night_video_path = "media/night.mp4"
-		self.day_progress_video_path = "media/progresslight.mp4"
-		self.night_progress_video_path = "media/progressnight.mp4"
 	
-		self.video_window = VideoWindow(self.intro_video_path, self.day_video_path, self.night_video_path, self.day_progress_video_path, self.night_progress_video_path)
+		self.video_window = VideoWindow(self.intro_video_path, self.day_video_path, self.night_video_path)
 		self.setCentralWidget(self.video_window)
 	
 		# Set the window flags to disable resizing
@@ -985,12 +970,7 @@ if __name__ == "__main__":
 				
 				notenumber = startingnumber
 				
-				if window.video_window.is_dark_mode():
-					video_path = "media/progressnight.mp4"
-				else:
-					video_path = "media/progresslight.mp4"
-					
-				window.video_window.play_video(video_path)
+				# progress sprite animation goes here <----------------------------------------------------
 				
 				files = os.listdir(original_directory)
 				files.sort()
@@ -1015,6 +995,5 @@ if __name__ == "__main__":
 					
 								# Copy the file to the new directory with the new name
 								shutil.copy2(old_path, new_path)
-
 
 	sys.exit(app.exec())
