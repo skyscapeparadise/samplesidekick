@@ -243,6 +243,10 @@ class VideoWindow(QMainWindow):
 		self.roundrobins_button.setText("Skipped Notes")
 		self.roundrobins_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.roundrobins_button.hide()
+		
+		# Create the progress bar
+		self.progressbar = AnimatedSprite(self, darkness=False)
+		self.progressbar.label.setGeometry(162, 121, 765, 35)
 
 		# Open the video files
 		self.intro_cap = cv2.VideoCapture(intro_video_path)
@@ -395,6 +399,9 @@ class VideoWindow(QMainWindow):
 	def hide_buttons(self):
 		self.target_directory_button.hide()
 		self.destination_directory_button.hide()
+		
+	def playprogress(self):	
+		self.progressbar.start_animation(self.is_dark_mode())
 
 # Define the sprite based buttons
 		
@@ -908,7 +915,48 @@ class MainWindow(QMainWindow):
 	def context_menu_requested(self):
 		self.menu.exec(self.video_window.startingnote_button.mapToGlobal(self.video_window.startingnote_button.pos()))
 		
+# Animated progress bar
 
+class AnimatedSprite:
+	def __init__(self, parent, darkness):
+		self.parent = parent
+		self.sprite_height = 35
+		self.total_frames = 95
+		self.current_frame = 0
+		
+		if darkness:
+			spritesheet_path = "media/progressnight.png"
+		else:
+			spritesheet_path = "media/progresslight.png"
+			
+		self.label = QLabel(parent)
+		self.label.setGeometry(0, 0, 765, self.sprite_height)
+		
+		self.spritesheet = QPixmap(spritesheet_path)
+		
+		self.timer = QTimer(parent)
+		self.timer.timeout.connect(self.update_frame)
+	
+	def start_animation(self, darkness):
+		if darkness:
+			spritesheet_path = "media/progressnight.png"
+		else:
+			spritesheet_path = "media/progresslight.png"
+			
+		self.spritesheet = QPixmap(spritesheet_path)  # Update the spritesheet path based on current darkness value
+		
+		self.current_frame = 0
+		self.timer.start(30)
+	
+	def update_frame(self):
+		if self.current_frame < self.total_frames:
+			y_offset = self.current_frame * self.sprite_height
+			self.label.setPixmap(self.spritesheet.copy(0, y_offset, 765, self.sprite_height))
+			self.current_frame += 1
+		else:
+			self.label.clear()
+			self.timer.stop()
+	
 # Spawn the actual instance of the app and its window
 
 if __name__ == "__main__":
@@ -963,14 +1011,14 @@ if __name__ == "__main__":
 			original_error_dialog.exec()
 		else:
 				
-			if destination_directory == "":
-				destination_error_dialog = ImageDialog("media/erroroutputdirectory.png")
-				destination_error_dialog.exec()
+			if new_directory == "":
+				new_directory_error_dialog = ImageDialog("media/erroroutputdirectory.png")
+				new_directory_error_dialog.exec()
 			else:
 				
 				notenumber = startingnumber
 				
-				# progress sprite animation goes here <----------------------------------------------------
+				window.video_window.playprogress()
 				
 				files = os.listdir(original_directory)
 				files.sort()
