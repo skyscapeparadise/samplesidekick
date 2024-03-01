@@ -68,15 +68,15 @@ roundrobindict = {
 	}
 
 signaltracksdict = {
-	10: ["track1", "track2", "track3", "track4", "track5", "track6", "track7", "track8", "track9", "track10"],
-	9: ["track1", "track2", "track3", "track4", "track5", "track6", "track7", "track8", "track9"],
-	8: ["track1", "track2", "track3", "track4", "track5", "track6", "track7", "track8"],
-	7: ["track1", "track2", "track3", "track4", "track5", "track6", "track7"],
-	6: ["track1", "track2", "track3", "track4", "track5", "track6"],
-	5: ["track1", "track2", "track3", "track4", "track5"],
-	4: ["track1", "track2", "track3", "track4"],
-	3: ["track1", "track2", "track3"],
-	2: ["track1", "track2"],
+	10: ["track1 ", "track2 ", "track3 ", "track4 ", "track5 ", "track6 ", "track7 ", "track8 ", "track9 ", "track10 "],
+	9: ["track1 ", "track2 ", "track3 ", "track4 ", "track5 ", "track6 ", "track7 ", "track8 ", "track9 "],
+	8: ["track1 ", "track2 ", "track3 ", "track4 ", "track5 ", "track6 ", "track7 ", "track8 "],
+	7: ["track1 ", "track2 ", "track3 ", "track4 ", "track5 ", "track6 ", "track7 "],
+	6: ["track1 ", "track2 ", "track3 ", "track4 ", "track5 ", "track6 "],
+	5: ["track1 ", "track2 ", "track3 ", "track4 ", "track5 "],
+	4: ["track1 ", "track2 ", "track3 ", "track4 "],
+	3: ["track1 ", "track2 ", "track3 "],
+	2: ["track1 ", "track2 "],
 	1: [""]
 	}
 
