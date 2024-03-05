@@ -7,7 +7,7 @@ A beautiful graphical sample-renaming tool for developing sample-based virtual i
 
 This project serves as a proof-of-concept for creating development tools with graphical interfaces made of GPU-accelerated video elements using the cross-platform Qt 6 API (among others). It takes a directory of sequentially numbered samples as an input, copies the samples into an output folder, and gives them a name containing their appropriate key, octave, velocity, round robin, and signal track.
 
-NOTE: AS OF JANUARY 29, 2024, THIS SOFTWARE IS STILL INCOMPLETE AND DOES NOT FUNCTION PROPERLY. PLEASE REFRAIN FROM USING IT TO RENAME YOUR SAMPLES UNTIL A RELEASE IS COMPLETE.
+NOTE: AS OF MARCH 5, 2024, THIS SOFTWARE IS STILL INCOMPLETE AND DOES NOT FUNCTION PROPERLY. PLEASE REFRAIN FROM USING IT TO RENAME YOUR SAMPLES UNTIL A RELEASE IS COMPLETE.
 
 # Requirements
 
