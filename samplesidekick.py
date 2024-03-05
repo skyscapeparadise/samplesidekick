@@ -15,11 +15,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 samplesidekick
 by skyscapeparadise (kady and friends? come on guys help me out)
 
-special thanks to: finn foley for giving me a reason to get this thing
+special thanks to: juan the python genius for helping me implement the
+renaming feature! finn foley for giving me a reason to get this thing
 finished already, moonriver for being so chill about me being super
 obsessed with stuff like this, guy white for encouraging me to get
 this onto github, zena and drew for believing i was capable of doing
-stuff like this before i ever did stuff like this
+stuff like this before i ever did stuff like this.
 """
 
 # We import all the libraries we need to rename files, have a flashy video GUI, play a fake progress bar video, etc
