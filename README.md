@@ -14,6 +14,7 @@ NOTE: AS OF JANUARY 29, 2024, THIS SOFTWARE IS STILL INCOMPLETE AND DOES NOT FUN
 Releases will include all necessary packages but if you're working with the source code itself, you will need the following additional python packages:
 
 ○ PySide6
+
 ○ opencv-python
 
 samplesidekick was developed with Python 3.10.7 so your milage may vary using it with other versions.
