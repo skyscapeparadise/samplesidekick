@@ -22,12 +22,12 @@ samplesidekick can be used with any digital audio workstation, but I'll use the 
 
 3. Right-click one of the clips (with them all selected still) and export the regions as audio files to a directory to feed to samplesidekick.
 
-<img width="506" alt="Screenshot 2024-01-29 at 8 51 17 PM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/828ffc0d-fc05-49f9-9939-3d167ac831ac">
+<img width="284" alt="Screenshot 2024-03-01 at 12 20 07 AM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/6320af69-bfc3-40f8-b9ff-2cd420c0efd2">
 
 4. Use that directory as the "sample directory" inside of samplesidekick. Choose the settings that best represent your samples.
 
+<img width="1072" alt="Screenshot 2024-03-05 at 12 49 39 PM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/09833593-1d5b-4848-992c-9eca02e32c15">
 
-<img width="1072" alt="Screenshot 2024-02-25 at 6 35 43 PM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/fba3861c-70ff-469e-b3ce-72581d35a376">
 
 
 
