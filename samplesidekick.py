@@ -1007,12 +1007,12 @@ if __name__ == "__main__":
 				new_directory_error_dialog.exec()
 			else:
 				
+				window.video_window.playprogress()
+				
 				# everything above this line should be good	
 				# the broken, buggy renaming function is below
 					
 				notenumber = startingnumber
-				
-				window.video_window.playprogress()
 				
 				files = os.listdir(original_directory)
 				files.sort()
