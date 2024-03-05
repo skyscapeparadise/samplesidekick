@@ -1006,8 +1006,9 @@ if __name__ == "__main__":
 				new_directory_error_dialog = ImageDialog("media/erroroutputdirectory.png")
 				new_directory_error_dialog.exec()
 			else:
-					
-				# broken, buggy renaming function below
+				
+				# everything above this line should be good	
+				# the broken, buggy renaming function is below
 					
 				notenumber = startingnumber
 				
