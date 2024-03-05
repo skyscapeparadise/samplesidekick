@@ -35,7 +35,7 @@ import cv2
 import platform
 import subprocess
 import shutil
-from itertools import cycle, islice
+from itertools import cycle, islice, product
 
 # Define all the elements of the final sample filenames
 
@@ -44,7 +44,7 @@ chromaticscale = ["C0", "C#0", "D0", "D#0", "E0", "F0", "F#0", "G0", "G#0", "A0"
 velocitydivisions = {
 	10: [" 1 13 ", " 14 25 ", " 26 38 ", " 39 51 ", " 52 64 ", " 65 76 ", " 77 89 ", " 90 102 ", " 103 114 ", " 115 127 "],
 	9: [" 1 14 ", " 15 28 ", " 29 42 ", " 43 56 ", " 57 71 ", " 72 85 ", " 86 99 ", " 100 113 ", " 114 127 "],
-	8: [" 1 16 ", " 17 32 ", "33 48", "49 64", "65 79", "80 95", "96 111", "112 127"],
+	8: [" 1 16 ", " 17 32 ", " 33 48 ", " 49 64 ", " 65 79 ", " 80 95 ", " 96 111 ", " 112 127 "],
 	7: [" 1 18 ", " 19 36 ", " 37 54 ", " 55 73 ", " 74 91 ", " 92 109 ", " 110 127 "],
 	6: [" 1 21 ", " 22 42 ", " 43 64 ", " 65 85 ", " 86 106 ", " 107 127 "],
 	5: [" 1 25 ", " 26 51 ", " 52 76 ", " 77 102 ", " 103 127 "],
@@ -90,7 +90,7 @@ velocitylayers = 1
 roundrobins = 1
 startingnoteandnumber = startingnote + str(startingnumber)
 original_directory = ""
-destination_directory = ""
+new_directory = ""
 
 # Define the way to draw the directory location text
 
@@ -187,7 +187,7 @@ class VideoWindow(QMainWindow):
 		self.rename_button.setFixedSize(84, 20)
 		self.rename_button.setSpriteImage("media/startsprite.png")
 		self.rename_button.setText("Start")
-		self.rename_button.clickedToOff.connect(lambda: samplerename())
+		self.rename_button.clickedToOff.connect(lambda: samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory))
 		self.rename_button.hide()
 		
 		# Create the signal tracks button
@@ -994,17 +994,7 @@ if __name__ == "__main__":
 		signaltracks = n
 		window.video_window.signaltracks_button.setSpriteImage("media/"+str(signaltracks)+".png")
 	
-	# Run the rename function with the target and destination directories
-	def samplerename():
-		
-		global signaltracks
-		global startingnote
-		global startingnumber
-		global skippednotes
-		global velocitylayers
-		global roundrobins
-		global original_directory
-		global new_directory
+	def samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory):
 		
 		if original_directory == "":
 			original_error_dialog = ImageDialog("media/errorsampledirectory.png")
@@ -1015,7 +1005,9 @@ if __name__ == "__main__":
 				new_directory_error_dialog = ImageDialog("media/erroroutputdirectory.png")
 				new_directory_error_dialog.exec()
 			else:
-				
+					
+				# broken, buggy renaming function below
+					
 				notenumber = startingnumber
 				
 				window.video_window.playprogress()
@@ -1040,8 +1032,8 @@ if __name__ == "__main__":
 								# Build the full paths for the old and new names
 								old_path = os.path.join(original_directory, file)
 								new_path = os.path.join(new_directory, final_name)
-					
-								# Copy the file to the new directory with the new name
-								shutil.copy2(old_path, new_path)
-
+				
+							# Copy the file to the new directory with the new name
+							shutil.copy2(old_path, new_path)
+										
 	sys.exit(app.exec())
