@@ -1000,42 +1000,36 @@ if __name__ == "__main__":
 		if original_directory == "":
 			original_error_dialog = ImageDialog("media/errorsampledirectory.png")
 			original_error_dialog.exec()
-		else:
-				
-			if new_directory == "":
-				new_directory_error_dialog = ImageDialog("media/erroroutputdirectory.png")
-				new_directory_error_dialog.exec()
-			else:
-				
-				window.video_window.playprogress()
-				
-				# everything above this line should be good	
-				# the broken, buggy renaming function is below
-					
-				notenumber = startingnumber
-				
-				files = os.listdir(original_directory)
-				files.sort()
-				
-				starting_index = chromaticscale.index(startingnoteandnumber)
-				
-				for v in range(velocitylayers):
-					for r in range(roundrobins):
-						for s in range(signaltracks):
-							track_name = signaltracksdict[signaltracks][s]
-							round_robin_name = roundrobindict[roundrobins][r]
-							velocity_name = velocitydivisions[velocitylayers][v]
-							for file, note in zip(files, chromaticscale[starting_index::skippednotes+1]):
-								filename, file_extension = os.path.splitext(file)
-					
-								# Build the new name with the appropriate note, velocity layer, and round robin
-								final_name = track_name + note + velocity_name + round_robin_name + file_extension
-					
-								# Build the full paths for the old and new names
-								old_path = os.path.join(original_directory, file)
-								new_path = os.path.join(new_directory, final_name)
-				
-							# Copy the file to the new directory with the new name
-							shutil.copy2(old_path, new_path)
+		
+		elif new_directory == "":
+			new_directory_error_dialog = ImageDialog("media/erroroutputdirectory.png")
+			new_directory_error_dialog.exec()
+
+		else:	
+			window.video_window.playprogress()
+			
+			files = os.listdir(original_directory)
+			files = [filename for filename in files if filename.split('.')[0].isdigit()]
+			files.sort(key=lambda x: int(x.split('.')[0])) # sort by number, not by name
+			
+			starting_note_index = chromaticscale.index(f'{startingnote}{startingnumber}')
+	
+			note_names = chromaticscale[starting_note_index::skippednotes+1]
+			velocity_names = velocitydivisions[velocitylayers]
+			round_robin_names = roundrobindict[roundrobins]
+			track_names = signaltracksdict[signaltracks]
+	
+			product_names = product(note_names, velocity_names, round_robin_names, track_names)
+	
+			for file, (note_name, velocity_name, round_robin_name, track_name) in zip(files, product_names):
+
+				# Build the new name with the appropriate note, velocity layer, and round robin
+				final_name = ' '.join((track_name.strip(), note_name.strip(), velocity_name.strip(), round_robin_name.strip()))
+
+				# Build the full paths for the old and new names
+				old_path = os.path.join(original_directory, file)
+				new_path = os.path.join(new_directory, final_name.strip()+'.'+file.split('.')[-1])
+				shutil.copy2(old_path, new_path)
+			
 										
 	sys.exit(app.exec())
