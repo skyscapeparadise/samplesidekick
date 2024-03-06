@@ -9,7 +9,7 @@ This project serves as a proof-of-concept for creating development tools with gr
 
 # Requirements
 
-Releases will include all necessary packages but if you're working with the source code itself, you will need the following additional python packages:
+Releases will include all necessary packages but if you're working with the source code itself, you will need the following additional Python packages:
 
 ○ PySide6
 
