@@ -227,7 +227,7 @@ class VideoWindow(QMainWindow):
 		
 		# Create the signal tracks button
 		self.signaltracks_button = SignalTracksButton(self)
-		self.signaltracks_button.setGeometry(845, 255, 40, 20)
+		self.signaltracks_button.setGeometry(837, 255, 40, 20)
 		self.signaltracks_button.setFixedSize(40,20)
 		self.signaltracks_button.setSpriteImage(resource_path(resource_path("media/ddbutton.png")))
 		self.signaltracks_button.setText("Signal Tracks")
@@ -236,7 +236,7 @@ class VideoWindow(QMainWindow):
 		
 		# Create the starting note button
 		self.startingnote_button = NoteButton(self)
-		self.startingnote_button.setGeometry(845, 292, 40, 20)
+		self.startingnote_button.setGeometry(837, 292, 40, 20)
 		self.startingnote_button.setFixedSize(40,20)
 		self.startingnote_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.startingnote_button.setText("Starting Note")
@@ -245,7 +245,7 @@ class VideoWindow(QMainWindow):
 
 		# Create the starting note number button
 		self.startingnumber_button = NumberButton(self)
-		self.startingnumber_button.setGeometry(895, 292, 40, 20)
+		self.startingnumber_button.setGeometry(887, 292, 40, 20)
 		self.startingnumber_button.setFixedSize(40,20)
 		self.startingnumber_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.startingnumber_button.setText("Starting Note Number")
@@ -254,7 +254,7 @@ class VideoWindow(QMainWindow):
 		
 		# Create the skipped notes button
 		self.skippednotes_button = SkippedButton(self)
-		self.skippednotes_button.setGeometry(845, 329, 40, 20)
+		self.skippednotes_button.setGeometry(837, 329, 40, 20)
 		self.skippednotes_button.setFixedSize(40,20)
 		self.skippednotes_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.skippednotes_button.setText("Skipped Notes")
@@ -263,7 +263,7 @@ class VideoWindow(QMainWindow):
 		
 		# Create the velocity layers button
 		self.velocitylayers_button = VelocityButton(self)
-		self.velocitylayers_button.setGeometry(845, 365, 40, 20)
+		self.velocitylayers_button.setGeometry(837, 365, 40, 20)
 		self.velocitylayers_button.setFixedSize(40,20)
 		self.velocitylayers_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.velocitylayers_button.setText("Velocity Layers")
@@ -272,7 +272,7 @@ class VideoWindow(QMainWindow):
 
 		# Create the velocity direction button
 		self.velocitydirection_button = DirectionButton(self)
-		self.velocitydirection_button.setGeometry(895, 365, 40, 20)
+		self.velocitydirection_button.setGeometry(887, 365, 40, 20)
 		self.velocitydirection_button.setFixedSize(40,20)
 		self.velocitydirection_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.velocitydirection_button.setText("Velocity Direction")
@@ -281,7 +281,7 @@ class VideoWindow(QMainWindow):
 
 		# Create the round robins button
 		self.roundrobins_button = RoundRobinsButton(self)
-		self.roundrobins_button.setGeometry(845, 401, 40, 20)
+		self.roundrobins_button.setGeometry(837, 401, 40, 20)
 		self.roundrobins_button.setFixedSize(40,20)
 		self.roundrobins_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.roundrobins_button.setText("Skipped Notes")
