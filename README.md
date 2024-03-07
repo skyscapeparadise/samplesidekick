@@ -34,7 +34,8 @@ samplesidekick can be used with any digital audio workstation, but the standard 
 
 4. Use that directory as the "sample directory" inside of samplesidekick. Choose the settings that best represent your samples.
 
-<img width="1072" alt="Screenshot 2024-03-05 at 12 49 39 PM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/09833593-1d5b-4848-992c-9eca02e32c15">
+<img width="1072" alt="Screenshot 2024-03-07 at 1 30 59 AM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/241f268d-1e59-4562-9fdf-8cde97c808d4">
+
 
 
 
