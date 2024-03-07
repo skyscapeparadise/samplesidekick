@@ -54,6 +54,32 @@ velocitydivisions = {
 	2: [" 1 64 ", " 65 127 "],
 	1: [""]
 	}
+	
+velocitydivisions = {
+	10: [" 1 13 ", " 14 25 ", " 26 38 ", " 39 51 ", " 52 64 ", " 65 76 ", " 77 89 ", " 90 102 ", " 103 114 ", " 115 127 "],
+	9: [" 1 14 ", " 15 28 ", " 29 42 ", " 43 56 ", " 57 71 ", " 72 85 ", " 86 99 ", " 100 113 ", " 114 127 "],
+	8: [" 1 16 ", " 17 32 ", " 33 48 ", " 49 64 ", " 65 79 ", " 80 95 ", " 96 111 ", " 112 127 "],
+	7: [" 1 18 ", " 19 36 ", " 37 54 ", " 55 73 ", " 74 91 ", " 92 109 ", " 110 127 "],
+	6: [" 1 21 ", " 22 42 ", " 43 64 ", " 65 85 ", " 86 106 ", " 107 127 "],
+	5: [" 1 25 ", " 26 51 ", " 52 76 ", " 77 102 ", " 103 127 "],
+	4: [" 1 32 ", " 33 64 ", " 65 95 ", " 96 127 "],
+	3: [" 1 42 ", " 43 85 ", " 86 127 "],
+	2: [" 1 64 ", " 65 127 "],
+	1: [""]
+	}
+	
+velocitydivisionsdescending = {
+	10: [' 103 127 ', ' 90 102 ', ' 77 89 ', ' 65 76 ', ' 52 64 ', ' 39 51 ', ' 26 38 ', ' 14 25 ', '  1 13 '],
+	9: [' 100 127 ', ' 72 85 ', ' 57 71 ', ' 43 56 ', ' 29 42 ', ' 15 28 ', '  1 14 '],
+	8: [' 112 127 ', ' 96 111 ', ' 80 95 ', ' 65 79 ', ' 49 64 ', ' 33 48 ', ' 17 32 ', '  1 16 '],
+	7: [' 110 127 ', ' 92 109 ', ' 74 91 ', ' 55 73 ', ' 37 54 ', ' 19 36 ', '  1 18 '],
+	6: [' 107 127 ', ' 86 106 ', ' 65 85 ', ' 43 64 ', ' 22 42 ', '  1 21 '],
+	5: [' 103 127 ', ' 77 102 ', ' 52 76 ', ' 26 51 ', '  1 25 '],
+	4: [' 96 127 ', ' 65 95 ', ' 33 64 ', '  1 32 '],
+	3: [' 86 127 ', ' 43 85 ', '  1 42 '],
+	2: [' 65 127 ', '  1 64 '],
+	1: ['']
+	}
 
 roundrobindict = {
 	10: [" rr 1 ", " rr 2 ", " rr 3 ", " rr 4 ", " rr 5 ", " rr 6 ", " rr 7 ", " rr 8 ", " rr 9 ", " rr 10 "],
@@ -92,6 +118,7 @@ roundrobins = 1
 startingnoteandnumber = startingnote + str(startingnumber)
 original_directory = ""
 new_directory = ""
+velocitydirection = True
 
 # Define the way to draw the directory location text
 
@@ -188,7 +215,7 @@ class VideoWindow(QMainWindow):
 		self.rename_button.setFixedSize(84, 20)
 		self.rename_button.setSpriteImage("media/startsprite.png")
 		self.rename_button.setText("Start")
-		self.rename_button.clickedToOff.connect(lambda: samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory))
+		self.rename_button.clickedToOff.connect(lambda: samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory, velocitydirection))
 		self.rename_button.hide()
 		
 		# Create the signal tracks button
@@ -232,9 +259,18 @@ class VideoWindow(QMainWindow):
 		self.velocitylayers_button.setGeometry(845, 365, 40, 20)
 		self.velocitylayers_button.setFixedSize(40,20)
 		self.velocitylayers_button.setSpriteImage("media/ddbutton.png")
-		self.velocitylayers_button.setText("Skipped Notes")
+		self.velocitylayers_button.setText("Velocity Layers")
 		self.velocitylayers_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.velocitylayers_button.hide()
+
+		# Create the velocity direction button
+		self.velocitydirection_button = DirectionButton(self)
+		self.velocitydirection_button.setGeometry(895, 365, 40, 20)
+		self.velocitydirection_button.setFixedSize(40,20)
+		self.velocitydirection_button.setSpriteImage("media/ddbutton.png")
+		self.velocitydirection_button.setText("Velocity Direction")
+		self.velocitydirection_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
+		self.velocitydirection_button.hide()
 
 		# Create the round robins button
 		self.roundrobins_button = RoundRobinsButton(self)
@@ -367,6 +403,7 @@ class VideoWindow(QMainWindow):
 			self.startingnumber_button.show()
 			self.skippednotes_button.show()
 			self.velocitylayers_button.show()
+			self.velocitydirection_button.show()
 			self.roundrobins_button.show()
 		else:
 			# Hide the buttons during the intro video playback
@@ -380,6 +417,7 @@ class VideoWindow(QMainWindow):
 			self.startingnumber_button.hide()
 			self.skippednotes_button.hide()
 			self.velocitylayers_button.hide()
+			self.velocitydirection_button.hide()
 			self.roundrobins_button.hide()
 	
 	def handle_dark_mode_change(self):
@@ -724,6 +762,67 @@ class VelocityButton(QPushButton):
 		else:
 			super().mouseReleaseEvent(event)
 
+class DirectionButton(QPushButton):
+	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
+	
+	def __init__(self, parent=None):
+		super().__init__(parent)
+		self.off_state = True
+		self.hovered = False
+		self.sprite_sheet = QPixmap()
+	
+	def setSpriteImage(self, sprite_path):
+		self.sprite_sheet = QPixmap(sprite_path)
+		self.update()
+	
+	def paintEvent(self, event: QPaintEvent):
+		painter = QPainter(self)
+		painter.drawPixmap(self.rect(), self.getSpriteForState())
+	
+	def getSpriteForState(self) -> QPixmap:
+		sprite_height = 20
+		sprite_index = 0
+		if self.isDown():
+			sprite_index += 2
+		elif self.off_state and self.hovered:
+			sprite_index += 4
+		return self.sprite_sheet.copy(0, sprite_index * sprite_height, self.width(), sprite_height)
+	
+	def enterEvent(self, event):
+		if self.isEnabled() and not self.isDown():
+			self.hovered = True
+			self.update()
+	
+	def leaveEvent(self, event):
+		if self.isEnabled() and not self.isDown():
+			self.hovered = False
+			self.update()
+	
+	def mousePressEvent(self, event):
+		if event.button() == Qt.MouseButton.LeftButton and self.isEnabled():
+			self.show_menu()
+		else:
+			super().mousePressEvent(event)
+	
+	def show_menu(self):
+		# Create and show the menu at the button's position
+		menu = SpriteMenu(self)
+		menu.addActionWithSprite("media/ascending.png",  lambda: setvelocitydirection(True))
+		menu.addActionWithSprite("media/descending.png",  lambda: setvelocitydirection(False))
+		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
+	
+	def mouseReleaseEvent(self, event):
+		if event.button() == Qt.MouseButton.LeftButton and self.isEnabled() and self.isDown():
+			self.clickedToOff.emit()
+			self.setDown(False)  # Reset the button state
+			self.off_state = True
+			self.hovered = False  # Set hovered to False to return to the initial state
+			self.update()
+		else:
+			super().mouseReleaseEvent(event)
+
+
+
 class RoundRobinsButton(QPushButton):
 	clickedToOff = Signal()  # Signal emitted when the button is clicked and should return to the off state
 	
@@ -985,6 +1084,14 @@ if __name__ == "__main__":
 		velocitylayers = n
 		window.video_window.velocitylayers_button.setSpriteImage("media/"+str(velocitylayers)+".png")
 		
+	def setvelocitydirection(n):
+		global velocitydirection
+		velocitydirection = n
+		if n == True:
+			window.video_window.velocitydirection_button.setSpriteImage("media/ascending.png")
+		else:
+			window.video_window.velocitydirection_button.setSpriteImage("media/descending.png")
+		
 	def setroundrobins(n):
 		global roundrobins
 		roundrobins = n
@@ -995,7 +1102,7 @@ if __name__ == "__main__":
 		signaltracks = n
 		window.video_window.signaltracks_button.setSpriteImage("media/"+str(signaltracks)+".png")
 	
-	def samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory):
+	def samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory, velocitydirection):
 		
 		if original_directory == "":
 			original_error_dialog = ImageDialog("media/errorsampledirectory.png")
@@ -1005,7 +1112,8 @@ if __name__ == "__main__":
 			new_directory_error_dialog = ImageDialog("media/erroroutputdirectory.png")
 			new_directory_error_dialog.exec()
 
-		else:	
+		else:
+				
 			window.video_window.playprogress()
 			
 			files = os.listdir(original_directory)
@@ -1015,9 +1123,13 @@ if __name__ == "__main__":
 			starting_note_index = chromaticscale.index(f'{startingnote}{startingnumber}')
 	
 			note_names = chromaticscale[starting_note_index::skippednotes+1]
-			velocity_names = velocitydivisions[velocitylayers]
 			round_robin_names = roundrobindict[roundrobins]
 			track_names = signaltracksdict[signaltracks]
+			
+			if velocitydirection == True:
+				velocity_names = velocitydivisions[velocitylayers]
+			else:
+				velocity_names = velocitydivisionsdescending[velocitylayers]
 	
 			product_names = product(note_names, velocity_names, round_robin_names, track_names)
 	
@@ -1030,6 +1142,6 @@ if __name__ == "__main__":
 				old_path = os.path.join(original_directory, file)
 				new_path = os.path.join(new_directory, final_name.strip()+'.'+file.split('.')[-1])
 				shutil.copy2(old_path, new_path)
-			
+
 										
 	sys.exit(app.exec())
