@@ -120,6 +120,13 @@ original_directory = ""
 new_directory = ""
 velocitydirection = True
 
+# Define a way to link to the user interface graphics
+
+def resource_path(relative_path):
+	if hasattr(sys, '_MEIPASS'):
+		return os.path.join(sys._MEIPASS, relative_path)
+	return os.path.join(os.path.abspath("."), relative_path)
+
 # Define the way to draw the directory location text
 
 class RightAlignedLabel(QLabel):
@@ -159,7 +166,7 @@ class ImageDialog(QDialog):
 		self.closedialog_button = SpriteButton(self)
 		self.closedialog_button.setGeometry(177, 129, 84, 20)
 		self.closedialog_button.setFixedSize(84, 20)
-		self.closedialog_button.setSpriteImage("media/closesprite.png")
+		self.closedialog_button.setSpriteImage(resource_path("media/closesprite.png"))
 		self.closedialog_button.clickedToOff.connect(self.close)
 		
 # Define the main window (This is where most of the application logic is including the renaming routine)
@@ -197,14 +204,14 @@ class VideoWindow(QMainWindow):
 		self.target_directory_button.setGeometry(92, 464, 84, 20)
 		self.target_directory_button.setFixedSize(84, 20)
 		self.target_directory_button.setText("Select Target Directory")
-		self.target_directory_button.setSpriteImage("media/selectsprite.png")
+		self.target_directory_button.setSpriteImage(resource_path("media/selectsprite.png"))
 		self.target_directory_button.clickedToOff.connect(self.select_target_directory)
 		self.target_directory_button.hide()
 
 		self.destination_directory_button = SpriteButton(self)
 		self.destination_directory_button.setGeometry(375, 464, 84, 20)
 		self.destination_directory_button.setFixedSize(84, 20)
-		self.destination_directory_button.setSpriteImage("media/selectsprite.png")
+		self.destination_directory_button.setSpriteImage(resource_path("media/selectsprite.png"))
 		self.destination_directory_button.setText("Select Destination Directory")
 		self.destination_directory_button.clickedToOff.connect(self.select_destination_directory)
 		self.destination_directory_button.hide()
@@ -213,7 +220,7 @@ class VideoWindow(QMainWindow):
 		self.rename_button = SpriteButton(self)
 		self.rename_button.setGeometry(843, 168, 84, 20)
 		self.rename_button.setFixedSize(84, 20)
-		self.rename_button.setSpriteImage("media/startsprite.png")
+		self.rename_button.setSpriteImage(resource_path("media/startsprite.png"))
 		self.rename_button.setText("Start")
 		self.rename_button.clickedToOff.connect(lambda: samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory, velocitydirection))
 		self.rename_button.hide()
@@ -222,7 +229,7 @@ class VideoWindow(QMainWindow):
 		self.signaltracks_button = SignalTracksButton(self)
 		self.signaltracks_button.setGeometry(845, 255, 40, 20)
 		self.signaltracks_button.setFixedSize(40,20)
-		self.signaltracks_button.setSpriteImage("media/ddbutton.png")
+		self.signaltracks_button.setSpriteImage(resource_path(resource_path("media/ddbutton.png")))
 		self.signaltracks_button.setText("Signal Tracks")
 		self.signaltracks_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.signaltracks_button.hide()
@@ -231,7 +238,7 @@ class VideoWindow(QMainWindow):
 		self.startingnote_button = NoteButton(self)
 		self.startingnote_button.setGeometry(845, 292, 40, 20)
 		self.startingnote_button.setFixedSize(40,20)
-		self.startingnote_button.setSpriteImage("media/ddbutton.png")
+		self.startingnote_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.startingnote_button.setText("Starting Note")
 		self.startingnote_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.startingnote_button.hide()
@@ -240,7 +247,7 @@ class VideoWindow(QMainWindow):
 		self.startingnumber_button = NumberButton(self)
 		self.startingnumber_button.setGeometry(895, 292, 40, 20)
 		self.startingnumber_button.setFixedSize(40,20)
-		self.startingnumber_button.setSpriteImage("media/ddbutton.png")
+		self.startingnumber_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.startingnumber_button.setText("Starting Note Number")
 		self.startingnumber_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.startingnumber_button.hide()
@@ -249,7 +256,7 @@ class VideoWindow(QMainWindow):
 		self.skippednotes_button = SkippedButton(self)
 		self.skippednotes_button.setGeometry(845, 329, 40, 20)
 		self.skippednotes_button.setFixedSize(40,20)
-		self.skippednotes_button.setSpriteImage("media/ddbutton.png")
+		self.skippednotes_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.skippednotes_button.setText("Skipped Notes")
 		self.skippednotes_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.skippednotes_button.hide()
@@ -258,7 +265,7 @@ class VideoWindow(QMainWindow):
 		self.velocitylayers_button = VelocityButton(self)
 		self.velocitylayers_button.setGeometry(845, 365, 40, 20)
 		self.velocitylayers_button.setFixedSize(40,20)
-		self.velocitylayers_button.setSpriteImage("media/ddbutton.png")
+		self.velocitylayers_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.velocitylayers_button.setText("Velocity Layers")
 		self.velocitylayers_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.velocitylayers_button.hide()
@@ -267,7 +274,7 @@ class VideoWindow(QMainWindow):
 		self.velocitydirection_button = DirectionButton(self)
 		self.velocitydirection_button.setGeometry(895, 365, 40, 20)
 		self.velocitydirection_button.setFixedSize(40,20)
-		self.velocitydirection_button.setSpriteImage("media/ddbutton.png")
+		self.velocitydirection_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.velocitydirection_button.setText("Velocity Direction")
 		self.velocitydirection_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.velocitydirection_button.hide()
@@ -276,7 +283,7 @@ class VideoWindow(QMainWindow):
 		self.roundrobins_button = RoundRobinsButton(self)
 		self.roundrobins_button.setGeometry(845, 401, 40, 20)
 		self.roundrobins_button.setFixedSize(40,20)
-		self.roundrobins_button.setSpriteImage("media/ddbutton.png")
+		self.roundrobins_button.setSpriteImage(resource_path("media/ddbutton.png"))
 		self.roundrobins_button.setText("Skipped Notes")
 		self.roundrobins_button.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
 		self.roundrobins_button.hide()
@@ -535,18 +542,18 @@ class NoteButton(QPushButton):
 	def show_menu(self):
 		# Create and show the menu at the button's position
 		menu = SpriteMenu(self)
-		menu.addActionWithSprite("media/c.png",  lambda: setstartingnote("C"))
-		menu.addActionWithSprite("media/c#.png", lambda: setstartingnote("C#"))
-		menu.addActionWithSprite("media/d.png",  lambda: setstartingnote("D"))
-		menu.addActionWithSprite("media/d#.png", lambda: setstartingnote("D#"))
-		menu.addActionWithSprite("media/e.png",  lambda: setstartingnote("E"))
-		menu.addActionWithSprite("media/f.png",  lambda: setstartingnote("F"))
-		menu.addActionWithSprite("media/f#.png", lambda: setstartingnote("F#"))
-		menu.addActionWithSprite("media/g.png",  lambda: setstartingnote("G"))
-		menu.addActionWithSprite("media/g#.png", lambda: setstartingnote("G#"))
-		menu.addActionWithSprite("media/a.png",  lambda: setstartingnote("A"))
-		menu.addActionWithSprite("media/a#.png", lambda: setstartingnote("A#"))
-		menu.addActionWithSprite("media/b.png",  lambda: setstartingnote("B"))
+		menu.addActionWithSprite(resource_path("media/c.png"),  lambda: setstartingnote("C"))
+		menu.addActionWithSprite(resource_path("media/c#.png"), lambda: setstartingnote("C#"))
+		menu.addActionWithSprite(resource_path("media/d.png"),  lambda: setstartingnote("D"))
+		menu.addActionWithSprite(resource_path("media/d#.png"), lambda: setstartingnote("D#"))
+		menu.addActionWithSprite(resource_path("media/e.png"),  lambda: setstartingnote("E"))
+		menu.addActionWithSprite(resource_path("media/f.png"),  lambda: setstartingnote("F"))
+		menu.addActionWithSprite(resource_path("media/f#.png"), lambda: setstartingnote("F#"))
+		menu.addActionWithSprite(resource_path("media/g.png"),  lambda: setstartingnote("G"))
+		menu.addActionWithSprite(resource_path("media/g#.png"), lambda: setstartingnote("G#"))
+		menu.addActionWithSprite(resource_path("media/a.png"),  lambda: setstartingnote("A"))
+		menu.addActionWithSprite(resource_path("media/a#.png"), lambda: setstartingnote("A#"))
+		menu.addActionWithSprite(resource_path("media/b.png"),  lambda: setstartingnote("B"))
 		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
 	
 	def mouseReleaseEvent(self, event):
@@ -604,17 +611,17 @@ class NumberButton(QPushButton):
 	def show_menu(self):
 		# Create and show the menu at the button's position
 		menu = SpriteMenu(self)
-		menu.addActionWithSprite("media/0.png",  lambda: setstartingnumber(0))
-		menu.addActionWithSprite("media/1.png",  lambda: setstartingnumber(1))
-		menu.addActionWithSprite("media/2.png",  lambda: setstartingnumber(2))
-		menu.addActionWithSprite("media/3.png",  lambda: setstartingnumber(3))
-		menu.addActionWithSprite("media/4.png",  lambda: setstartingnumber(4))
-		menu.addActionWithSprite("media/5.png",  lambda: setstartingnumber(5))
-		menu.addActionWithSprite("media/6.png",  lambda: setstartingnumber(6))
-		menu.addActionWithSprite("media/7.png",  lambda: setstartingnumber(7))
-		menu.addActionWithSprite("media/8.png",  lambda: setstartingnumber(8))
-		menu.addActionWithSprite("media/9.png",  lambda: setstartingnumber(9))
-		menu.addActionWithSprite("media/10.png", lambda: setstartingnumber(10))
+		menu.addActionWithSprite(resource_path("media/0.png"),  lambda: setstartingnumber(0))
+		menu.addActionWithSprite(resource_path("media/1.png"),  lambda: setstartingnumber(1))
+		menu.addActionWithSprite(resource_path("media/2.png"),  lambda: setstartingnumber(2))
+		menu.addActionWithSprite(resource_path("media/3.png"),  lambda: setstartingnumber(3))
+		menu.addActionWithSprite(resource_path("media/4.png"),  lambda: setstartingnumber(4))
+		menu.addActionWithSprite(resource_path("media/5.png"),  lambda: setstartingnumber(5))
+		menu.addActionWithSprite(resource_path("media/6.png"),  lambda: setstartingnumber(6))
+		menu.addActionWithSprite(resource_path("media/7.png"),  lambda: setstartingnumber(7))
+		menu.addActionWithSprite(resource_path("media/8.png"),  lambda: setstartingnumber(8))
+		menu.addActionWithSprite(resource_path("media/9.png"),  lambda: setstartingnumber(9))
+		menu.addActionWithSprite(resource_path("media/10.png"), lambda: setstartingnumber(10))
 		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
 	
 	def mouseReleaseEvent(self, event):
@@ -672,17 +679,17 @@ class SkippedButton(QPushButton):
 	def show_menu(self):
 		# Create and show the menu at the button's position
 		menu = SpriteMenu(self)
-		menu.addActionWithSprite("media/0.png",  lambda: setskippednotes(0))
-		menu.addActionWithSprite("media/1.png",  lambda: setskippednotes(1))
-		menu.addActionWithSprite("media/2.png",  lambda: setskippednotes(2))
-		menu.addActionWithSprite("media/3.png",  lambda: setskippednotes(3))
-		menu.addActionWithSprite("media/4.png",  lambda: setskippednotes(4))
-		menu.addActionWithSprite("media/5.png",  lambda: setskippednotes(5))
-		menu.addActionWithSprite("media/6.png",  lambda: setskippednotes(6))
-		menu.addActionWithSprite("media/7.png",  lambda: setskippednotes(7))
-		menu.addActionWithSprite("media/8.png",  lambda: setskippednotes(8))
-		menu.addActionWithSprite("media/9.png",  lambda: setskippednotes(9))
-		menu.addActionWithSprite("media/10.png", lambda: setskippednotes(10))
+		menu.addActionWithSprite(resource_path("media/0.png"),  lambda: setskippednotes(0))
+		menu.addActionWithSprite(resource_path("media/1.png"),  lambda: setskippednotes(1))
+		menu.addActionWithSprite(resource_path("media/2.png"),  lambda: setskippednotes(2))
+		menu.addActionWithSprite(resource_path("media/3.png"),  lambda: setskippednotes(3))
+		menu.addActionWithSprite(resource_path("media/4.png"),  lambda: setskippednotes(4))
+		menu.addActionWithSprite(resource_path("media/5.png"),  lambda: setskippednotes(5))
+		menu.addActionWithSprite(resource_path("media/6.png"),  lambda: setskippednotes(6))
+		menu.addActionWithSprite(resource_path("media/7.png"),  lambda: setskippednotes(7))
+		menu.addActionWithSprite(resource_path("media/8.png"),  lambda: setskippednotes(8))
+		menu.addActionWithSprite(resource_path("media/9.png"),  lambda: setskippednotes(9))
+		menu.addActionWithSprite(resource_path("media/10.png"), lambda: setskippednotes(10))
 		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
 	
 	def mouseReleaseEvent(self, event):
@@ -740,16 +747,16 @@ class VelocityButton(QPushButton):
 	def show_menu(self):
 		# Create and show the menu at the button's position
 		menu = SpriteMenu(self)
-		menu.addActionWithSprite("media/1.png",  lambda: setvelocitylayers(1))
-		menu.addActionWithSprite("media/2.png",  lambda: setvelocitylayers(2))
-		menu.addActionWithSprite("media/3.png",  lambda: setvelocitylayers(3))
-		menu.addActionWithSprite("media/4.png",  lambda: setvelocitylayers(4))
-		menu.addActionWithSprite("media/5.png",  lambda: setvelocitylayers(5))
-		menu.addActionWithSprite("media/6.png",  lambda: setvelocitylayers(6))
-		menu.addActionWithSprite("media/7.png",  lambda: setvelocitylayers(7))
-		menu.addActionWithSprite("media/8.png",  lambda: setvelocitylayers(8))
-		menu.addActionWithSprite("media/9.png",  lambda: setvelocitylayers(9))
-		menu.addActionWithSprite("media/10.png", lambda: setvelocitylayers(10))
+		menu.addActionWithSprite(resource_path("media/1.png"),  lambda: setvelocitylayers(1))
+		menu.addActionWithSprite(resource_path("media/2.png"),  lambda: setvelocitylayers(2))
+		menu.addActionWithSprite(resource_path("media/3.png"),  lambda: setvelocitylayers(3))
+		menu.addActionWithSprite(resource_path("media/4.png"),  lambda: setvelocitylayers(4))
+		menu.addActionWithSprite(resource_path("media/5.png"),  lambda: setvelocitylayers(5))
+		menu.addActionWithSprite(resource_path("media/6.png"),  lambda: setvelocitylayers(6))
+		menu.addActionWithSprite(resource_path("media/7.png"),  lambda: setvelocitylayers(7))
+		menu.addActionWithSprite(resource_path("media/8.png"),  lambda: setvelocitylayers(8))
+		menu.addActionWithSprite(resource_path("media/9.png"),  lambda: setvelocitylayers(9))
+		menu.addActionWithSprite(resource_path("media/10.png"), lambda: setvelocitylayers(10))
 		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
 	
 	def mouseReleaseEvent(self, event):
@@ -807,8 +814,8 @@ class DirectionButton(QPushButton):
 	def show_menu(self):
 		# Create and show the menu at the button's position
 		menu = SpriteMenu(self)
-		menu.addActionWithSprite("media/ascending.png",  lambda: setvelocitydirection(True))
-		menu.addActionWithSprite("media/descending.png",  lambda: setvelocitydirection(False))
+		menu.addActionWithSprite(resource_path("media/ascending.png"),  lambda: setvelocitydirection(True))
+		menu.addActionWithSprite(resource_path("media/descending.png"),  lambda: setvelocitydirection(False))
 		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
 	
 	def mouseReleaseEvent(self, event):
@@ -868,16 +875,16 @@ class RoundRobinsButton(QPushButton):
 	def show_menu(self):
 		# Create and show the menu at the button's position
 		menu = SpriteMenu(self)
-		menu.addActionWithSprite("media/1.png",  lambda: setroundrobins(1))
-		menu.addActionWithSprite("media/2.png",  lambda: setroundrobins(2))
-		menu.addActionWithSprite("media/3.png",  lambda: setroundrobins(3))
-		menu.addActionWithSprite("media/4.png",  lambda: setroundrobins(4))
-		menu.addActionWithSprite("media/5.png",  lambda: setroundrobins(5))
-		menu.addActionWithSprite("media/6.png",  lambda: setroundrobins(6))
-		menu.addActionWithSprite("media/7.png",  lambda: setroundrobins(7))
-		menu.addActionWithSprite("media/8.png",  lambda: setroundrobins(8))
-		menu.addActionWithSprite("media/9.png",  lambda: setroundrobins(9))
-		menu.addActionWithSprite("media/10.png", lambda: setroundrobins(10))
+		menu.addActionWithSprite(resource_path("media/1.png"),  lambda: setroundrobins(1))
+		menu.addActionWithSprite(resource_path("media/2.png"),  lambda: setroundrobins(2))
+		menu.addActionWithSprite(resource_path("media/3.png"),  lambda: setroundrobins(3))
+		menu.addActionWithSprite(resource_path("media/4.png"),  lambda: setroundrobins(4))
+		menu.addActionWithSprite(resource_path("media/5.png"),  lambda: setroundrobins(5))
+		menu.addActionWithSprite(resource_path("media/6.png"),  lambda: setroundrobins(6))
+		menu.addActionWithSprite(resource_path("media/7.png"),  lambda: setroundrobins(7))
+		menu.addActionWithSprite(resource_path("media/8.png"),  lambda: setroundrobins(8))
+		menu.addActionWithSprite(resource_path("media/9.png"),  lambda: setroundrobins(9))
+		menu.addActionWithSprite(resource_path("media/10.png"), lambda: setroundrobins(10))
 		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
 	
 	def mouseReleaseEvent(self, event):
@@ -935,16 +942,16 @@ class SignalTracksButton(QPushButton):
 	def show_menu(self):
 		# Create and show the menu at the button's position
 		menu = SpriteMenu(self)
-		menu.addActionWithSprite("media/1.png",  lambda: setsignaltracks(1))
-		menu.addActionWithSprite("media/2.png",  lambda: setsignaltracks(2))
-		menu.addActionWithSprite("media/3.png",  lambda: setsignaltracks(3))
-		menu.addActionWithSprite("media/4.png",  lambda: setsignaltracks(4))
-		menu.addActionWithSprite("media/5.png",  lambda: setsignaltracks(5))
-		menu.addActionWithSprite("media/6.png",  lambda: setsignaltracks(6))
-		menu.addActionWithSprite("media/7.png",  lambda: setsignaltracks(7))
-		menu.addActionWithSprite("media/8.png",  lambda: setsignaltracks(8))
-		menu.addActionWithSprite("media/9.png",  lambda: setsignaltracks(9))
-		menu.addActionWithSprite("media/10.png", lambda: setsignaltracks(10))
+		menu.addActionWithSprite(resource_path("media/1.png"),  lambda: setsignaltracks(1))
+		menu.addActionWithSprite(resource_path("media/2.png"),  lambda: setsignaltracks(2))
+		menu.addActionWithSprite(resource_path("media/3.png"),  lambda: setsignaltracks(3))
+		menu.addActionWithSprite(resource_path("media/4.png"),  lambda: setsignaltracks(4))
+		menu.addActionWithSprite(resource_path("media/5.png"),  lambda: setsignaltracks(5))
+		menu.addActionWithSprite(resource_path("media/6.png"),  lambda: setsignaltracks(6))
+		menu.addActionWithSprite(resource_path("media/7.png"),  lambda: setsignaltracks(7))
+		menu.addActionWithSprite(resource_path("media/8.png"),  lambda: setsignaltracks(8))
+		menu.addActionWithSprite(resource_path("media/9.png"),  lambda: setsignaltracks(9))
+		menu.addActionWithSprite(resource_path("media/10.png"), lambda: setsignaltracks(10))
 		menu.exec(self.mapToGlobal(self.rect().bottomLeft()))
 	
 	def mouseReleaseEvent(self, event):
@@ -985,9 +992,9 @@ class MainWindow(QMainWindow):
 		self.setWindowTitle("samplesidekick")
 		self.setGeometry(0, 0, 960, 540)
 	
-		self.intro_video_path = "media/intro.mp4"
-		self.day_video_path = "media/day.mp4"
-		self.night_video_path = "media/night.mp4"
+		self.intro_video_path = resource_path("media/intro.mp4")
+		self.day_video_path = resource_path("media/day.mp4")
+		self.night_video_path = resource_path("media/night.mp4")
 	
 		self.video_window = VideoWindow(self.intro_video_path, self.day_video_path, self.night_video_path)
 		self.setCentralWidget(self.video_window)
@@ -1025,9 +1032,9 @@ class AnimatedSprite:
 		self.current_frame = 0
 		
 		if darkness:
-			spritesheet_path = "media/progressnight.png"
+			spritesheet_path = resource_path("media/progressnight.png")
 		else:
-			spritesheet_path = "media/progresslight.png"
+			spritesheet_path = resource_path("media/progresslight.png")
 			
 		self.label = QLabel(parent)
 		self.label.setGeometry(0, 0, 765, self.sprite_height)
@@ -1039,9 +1046,9 @@ class AnimatedSprite:
 	
 	def start_animation(self, darkness):
 		if darkness:
-			spritesheet_path = "media/progressnight.png"
+			spritesheet_path = resource_path("media/progressnight.png")
 		else:
-			spritesheet_path = "media/progresslight.png"
+			spritesheet_path = resource_path("media/progresslight.png")
 			
 		self.spritesheet = QPixmap(spritesheet_path)  # Update the spritesheet path based on current darkness value
 		
@@ -1067,49 +1074,49 @@ if __name__ == "__main__":
 	def setstartingnote(n):
 		global startingnote
 		startingnote = n
-		window.video_window.startingnote_button.setSpriteImage("media/"+str(startingnote)+".png")
+		window.video_window.startingnote_button.setSpriteImage(resource_path("media/"+str(startingnote)+".png"))
 		
 	def setstartingnumber(n):
 		global startingnumber
 		startingnumber = n
-		window.video_window.startingnumber_button.setSpriteImage("media/"+str(startingnumber)+".png")
+		window.video_window.startingnumber_button.setSpriteImage(resource_path("media/"+str(startingnumber)+".png"))
 	
 	def setskippednotes(n):
 		global skippednotes
 		skippednotes = n
-		window.video_window.skippednotes_button.setSpriteImage("media/"+str(skippednotes)+".png")
+		window.video_window.skippednotes_button.setSpriteImage(resource_path("media/"+str(skippednotes)+".png"))
 	
 	def setvelocitylayers(n):
 		global velocitylayers
 		velocitylayers = n
-		window.video_window.velocitylayers_button.setSpriteImage("media/"+str(velocitylayers)+".png")
+		window.video_window.velocitylayers_button.setSpriteImage(resource_path("media/"+str(velocitylayers)+".png"))
 		
 	def setvelocitydirection(n):
 		global velocitydirection
 		velocitydirection = n
 		if n == True:
-			window.video_window.velocitydirection_button.setSpriteImage("media/ascending.png")
+			window.video_window.velocitydirection_button.setSpriteImage(resource_path("media/ascending.png"))
 		else:
-			window.video_window.velocitydirection_button.setSpriteImage("media/descending.png")
+			window.video_window.velocitydirection_button.setSpriteImage(resource_path("media/descending.png"))
 		
 	def setroundrobins(n):
 		global roundrobins
 		roundrobins = n
-		window.video_window.roundrobins_button.setSpriteImage("media/"+str(roundrobins)+".png")
+		window.video_window.roundrobins_button.setSpriteImage(resource_path("media/"+str(roundrobins)+".png"))
 		
 	def setsignaltracks(n):
 		global signaltracks
 		signaltracks = n
-		window.video_window.signaltracks_button.setSpriteImage("media/"+str(signaltracks)+".png")
+		window.video_window.signaltracks_button.setSpriteImage(resource_path("media/"+str(signaltracks)+".png"))
 	
 	def samplerename(signaltracks, startingnote, startingnumber, skippednotes, velocitylayers, roundrobins, chromaticscale, velocitydivisions, roundrobindict, signaltracksdict, original_directory, new_directory, velocitydirection):
 		
 		if original_directory == "":
-			original_error_dialog = ImageDialog("media/errorsampledirectory.png")
+			original_error_dialog = ImageDialog(resource_path("media/errorsampledirectory.png"))
 			original_error_dialog.exec()
 		
 		elif new_directory == "":
-			new_directory_error_dialog = ImageDialog("media/erroroutputdirectory.png")
+			new_directory_error_dialog = ImageDialog(resource_path("media/erroroutputdirectory.png"))
 			new_directory_error_dialog.exec()
 
 		else:
