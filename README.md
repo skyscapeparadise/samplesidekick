@@ -7,6 +7,8 @@ A beautiful graphical sample-renaming tool for developing sample-based virtual i
 
 This project serves as a proof-of-concept for creating development tools with graphical interfaces made of GPU-accelerated video elements using the cross-platform Qt 6 API (among others). It takes a directory of sequentially numbered samples as an input, copies the samples into an output folder, and gives them a name containing their appropriate key, octave, velocity, round robin, and signal track.
 
+samplesidekick was created as an in-house tool for Rain Audio projects, and development of this project will likely only go so far as our needs at Rain require. Feel free to use the Windows and upcoming Linux versions, but you will likely still need to find a way to replicate the naming pattern described below for the tool to be useful for your project.
+
 # Requirements
 
 Releases will include all necessary packages but if you're working with the source code itself, you will need the following additional Python packages:
@@ -20,7 +22,7 @@ samplesidekick was developed with Python 3.10.7 so your milage may vary using it
 # Instructions
 samplesidekick can be used with any digital audio workstation, but the standard workflow is intended for Logic Pro:
 
-1. Split all of your tracks into individual samples. Arrange the samples so that the quietest/smallest velocity layer is first and the loudest/biggest velocity layer is last. Use Cmd/Cntl-A to select all of your clips.
+1. Split all of your tracks into individual samples. Use Cmd/Cntl-A to select all of your clips.
 
 <img width="1750" alt="Screenshot 2024-01-29 at 8 50 19 PM" src="https://github.com/skyscapeparadise/samplesidekick/assets/132173748/9da81c10-b8fa-4e49-b73a-4a98c9bff5f9">
 
