@@ -5,7 +5,7 @@
 
 A beautiful graphical sample-renaming tool for developing sample-based virtual instruments for use in digital audio workstations.
 
-This project serves as a proof-of-concept for creating development tools with graphical interfaces made of GPU-accelerated video elements using the cross-platform Qt 6 API (among others). It takes a directory of sequentially numbered samples as an input, copies the samples into an output folder, and gives them a name containing their appropriate key, octave, velocity, round robin, and signal track.
+This project serves as a proof-of-concept for creating development tools with graphical interfaces made of GPU-accelerated video elements using the cross-platform Qt 6 API (among others). It takes a directory of sequentially numbered samples as an input, copies the samples into an output folder, and gives them a name containing their appropriate key, octave, velocity, round robin, and signal track for fast sample mapping in a software sampler.
 
 samplesidekick was created as an in-house tool for Rain Audio projects, and development of this project will likely only go so far as our needs at Rain require. Feel free to use the Windows and upcoming Linux versions, but you will likely still need to find a way to replicate the naming pattern described below for the tool to be useful for your project.
 
